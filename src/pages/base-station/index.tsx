@@ -173,24 +173,19 @@ const BaseStationList: React.FC = () => {
   const handleEditFinish = async (values: any) => {
     try {
       if (currentRecord) {
-        // 移除不必要的console.log
+        console.log('编辑的表单数据:', values);
         const updated = await updateBaseStation(currentRecord.id, values);
+        console.log('更新结果:', updated);
         if (updated) {
           message.success('更新成功');
           setIsEditModalVisible(false);
           actionRef.current?.reload();
-          // 清除当前记录，防止下次打开显示错误数据
-          setCurrentRecord(null);
         } else {
           message.error('更新失败：返回数据为空');
         }
-      } else {
-        // 添加对currentRecord为null的错误处理
-        message.error('编辑失败：未找到编辑数据');
-        setIsEditModalVisible(false);
       }
     } catch (error) {
-      // 移除不必要的console.error
+      console.error('更新基站时出错:', error);
       message.error('更新失败：' + (error instanceof Error ? error.message : '未知错误'));
     }
   };
@@ -245,6 +240,10 @@ const BaseStationList: React.FC = () => {
             
             // 确保返回的数据是数组格式
             const dataArray = Array.isArray(result) ? result : [];
+            console.log('处理后的数据数组长度:', dataArray.length);
+            
+          
+          
             return {
               data: dataArray,
               total: dataArray.length
@@ -267,20 +266,10 @@ const BaseStationList: React.FC = () => {
           <Popconfirm
             title="确定要删除选中的基站吗？"
             onConfirm={async () => {
-              let hasError = false;
               for (const id of selectedRowKeys) {
-                try {
-                  await deleteBaseStation(Number(id));
-                } catch (error) {
-                  hasError = true;
-                  // 继续删除其他项，但记录有错误
-                }
+                await deleteBaseStation(Number(id));
               }
-              if (hasError) {
-                message.warning('部分删除成功，部分失败');
-              } else {
-                message.success('删除成功');
-              }
+              message.success('删除成功');
               actionRef.current?.reload();
             }}
             okText="确定"
@@ -299,6 +288,7 @@ const BaseStationList: React.FC = () => {
         open={isEditModalVisible}
         onCancel={() => {
           setIsEditModalVisible(false);
+          // 清除当前记录，防止下次打开显示错误数据
           setCurrentRecord(null);
         }}
         footer={null}
