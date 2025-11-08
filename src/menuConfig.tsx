@@ -43,14 +43,9 @@ const asideMenuConfig: MenuDataItem[] = [
     icon: <SettingOutlined />,
     children: [
       {
-        name: '公共模板',
-        path: '/base-station',
-        icon: <EnvironmentOutlined />,
-      },
-      {
         name: '自定义模板',
-        path: '/desk-sign',
-        icon: <TableOutlined />,
+        path: '/content-template',
+        icon: <EnvironmentOutlined />,
       },
       {
         name: '测试',
