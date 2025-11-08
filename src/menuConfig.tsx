@@ -52,6 +52,11 @@ const asideMenuConfig: MenuDataItem[] = [
         path: '/desk-sign',
         icon: <TableOutlined />,
       },
+      {
+        name: '测试',
+        path: '/test',
+        icon: <SettingOutlined />,
+      },
     ],
   },
   {
